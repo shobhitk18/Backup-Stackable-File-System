@@ -1,0 +1,171 @@
+SRC FILES : bkpctl.c /fs/bkpfs/ (folder containing module sources)  
+HEADERS : /linux/bkp_shared.h(shared heaeder) bkpctl.h bkpfs.h
+CONFIG : kernel.config 
+MAKE : Makefile 				(builds the user program)
+SETUP SCRIPT: setup.sh 
+USER EXECUTABLE : bkpctl
+
+HOW TO SETUP : After doing a make of the kernel and installing it, 
+please run the setup.sh script to build the user program, writer program 
+and insmod the bkpfs.ko module and mount the bkpfs fs  with maxvers=3
+and bkp_threshold=8
+
+*******************************************************************
+2.0 DESIGN FOR USER PROGRAM (bkpctl)
+*******************************************************************
+SRC FILES: bkpctl.c
+HEADERS: bkpctl.h, bkp_shared.h 
+
+bkpctl.c contains the main source code for the user level program which is responsible for parsing the command line options passed
+
+Options Supported as per assignment description:
+	-l --> list backup Operation
+	-d --> delete backup Operation
+	-v --> view backup Operation
+	-r --> restore backup Operation
+	-h --> display help/usage
+
+The options are parsed using getopt() and thus support parsing of options in any order. The program is well built to handle any erroneous inputs by the User
+on the CLI. For example the user may try to view a version which is not present which will be catched by the program and error will be returned back to the 
+user.All input validation is done in the validate_user_input function. Many test have been run and tested and some of them are provided in test scripts as well.
+More information regarding the tests can be found in the TEST/EVALUATION section later.
+
+Design Decision: 
+Since we had to support newest, oldest and N as the arguments for these options where N is a valid version number between 1 to n.
+I decided to make things simpler in the kernel by these arguments to integer where oldest -> -1 newest -> 0, and any other version is a positive number 
+less than n. For delete operation I send 1 to specify the 'all' argument which is perfectly safe as delete doesn't support specific version number as argument.
+Also for the user I always show the versions starting from 1 upto 'n' where n is the most recent backup. This avoids user remember the exact names of the backup
+files which anyways the user doesn't have access to. Now all user needs to provide is the version number between [1-n] where 1 is the oldest and n being the 
+latest version.
+
+The communication between the user program and the kernel module is done using IOCTL calls. To do this, I pack all the arguments into an ioctl_args structure
+defined in the shared header and pass this structure using the IOCTL call with appropriate cmd number for IOCTL.
+Following are the supported IOCTL cmds and are defined in bkp_shared header:
+
+1. IOCTL_GET_MAX_VERS 
+2. IOCTL_GET_NUM_VERS 	
+3. IOCTL_LIST_VERS	
+4. IOCTL_RESTORE_VERS
+5. IOCTL_DELETE_VERS 	
+6. IOCTL_VIEW_VERS 	
+7. IOCTL_GET_FILE_SIZE
+
+***********************************
+2.1 Functions/Methods Description:
+***********************************
+1.main() : Entry Point.This function does two things, first it populates an internal input struct based on the arguments provided by the user on CLI and then 
+calls other methods for validating and executing the operations on behalf of user
+
+2.validate_input_args() : This API validates the input arguments based on various checks..
+
+3.handle_input() : This API is responsible for maintaining the right sequence of operation when there is a combination of option passed.
+I only allow -l operation to be passed along with any other option and no other combinations. Also listing of version will be handled in
+the end once the other operation completes(if any).
+
+4.list_backup_version() : This API will gets the backup versions present for the file and prints them to console
+
+5.delete_backup_version() : This API will perform the delete operation on the backups. 
+
+6.view_backup_version() : This API will perform the view operation and displays the content of the specified backup version on the stdout.
+I decided to read the data in chunks of 4K bytes and display the contents on the stdout by default.
+
+7.restore_backup_version() : This API will perform the restore operation. On successfull completion the user file will be replaced
+with the backup version specified in the arguments. 
+
+*********************************************************
+3.0 DESIGN FOR KERNEL MODULE (bkpfs.ko)
+*********************************************************
+SRC_FOLDER: /fs/bkpfs/
+SRC FILES: dentry.c file.c inode.c lookup.c main.c mmap.c super.c bkpfs.mod.c
+HEADERS: bkpfs.h, bkp_shared.h 
+
+file.c: contains the main code changes for the kernel module which is responsible for detecting any changes done to the actual user file and 
+create backup for it on runtime. 
+
+HIGH LEVEL DESIGN :-
+
+A. MOUNT OPTIONS: 
+The bkpfs fs supprts 2 mount options:
+1. maxvers => This specifies the maximum backups allowed for any given file at any given time. Used to implement retention policy)
+DEFAULT VALUE = 10
+2. bkp_threshold => This specifies the write threshold in bytes to trigger the backup creation. What this means is if the user writes data
+less than this threshold than no backup will be created. In order to create backup for any change user must pass 0 value for this option.
+DEFAULT VALUE = 32.
+
+B. VERSION MAINTAINENCE:
+The backup files will be created in the same directory where the actual file is located in the lower fs. Backup creation will only happen for 
+non directory types. In order to maintain the existing versions of a file I am using  extended attributes for keeping track of the start and end
+version for that file. This is done to have persistent data over multiple mount/unmounts as well when dentry/inode gets flushed out of the main memory.
+For my design I only need start version for the backup files and the latest version(current) in order to access those files internally.
+The names of the backup files are formed as follows :-
+	
+	backup file name = .bkp_[file name].[version No]
+
+Since I add some characters to the filename while creating backups, I make sure that I don't cross the max filename boundary. If it does, I throw 
+out an error and don't create backup for that file. The handling of version number is then pretty staright forward. Everytime I am about to create
+a new version for a file, I read the EA's to find the last version as well as the total versions present. If the total versions equal to the maxvers
+supported by bkpfs I delete the file corresponding to the start version and create a new backup with an incremented version number.
+Eg. If I have maxvers = 3 and i already have 3 versions created i.e .bkp_test.1 .bkp_test.2 .bkp_test.3 , now for the fourth version I will delete
+.bkp_test.1 and create a backup with .bkp_test.4. This will be followed by the updation of the EA's as my start_ver will now become 2 and my cur_ver
+become 4. This number is hidden from tthe user and all user will ever get to see is that there are three versions available i.e 1, 2 and 3 and 
+internally these 3 versions will be mapped to .2, .3 and .4. 
+
+C. RETENTION POLICY:
+Based on the maxvers passed by the user as the mount option, we will decide how many backups would be allowed per file. Once the number of backups
+for any file becomes equal to the maxvers value, and user make changes in the file we delete the oldest backup associated with that file and create a 
+new one with the current data. Basically we always keep the N most recent backups where N <= maxvers. Another thing that is important to mention 
+here is that when user deletes the actual file using rm or other such command we internally delete all the versions associated with that file.
+
+D. VISIBILITY 
+It is important for the design that user is not able to view or modify backup files directly. In the design, I have changed the readdir and filldir
+functions to avoid listing of backup files on ls or ls -a. But, this will only block these files from getting displayed, it would not prevent user
+from accessing the backup files if he gives the correct name of the backup file. To avoid this I hacked the lookup code to prevent creation of upper
+layer dentry for backup files all together. This ensures that user is never able to access backup file from inside the mount point.
+
+E. BACKUP OPERATIONS
+As explained earlier there is an inherent mapping between version number passed from the USERLAND to the actual version number inside the kernel 
+This not only makes the implementation simple but also increases security by not allowing user to know the exact version number of the file.
+
+1. List : For listing purpose I make use of the start version and cur version stored in the EA's of the given file and calculate the total versions
+present. This is returned to the user when the respective IOCTL call is made. Note: Versions listed are always starting from 1 and goes upto N where
+Version 1 is the oldest version and N is the latest. 
+
+2. Delete: For deleting the backup, I read the arguments passed by the user in the IOCLT call and delete the respective versions. Deletion of backups
+require updation of EA's so that we always have the correct versions stored in the EA. Updating the EA will not change the access time of the actual 
+file.
+
+3. Restore: For restoring the user file back to a specified version, I open the user file in TRUNCATE mode and just copy the contents of the specified
+backup version back to the file. Copying of this content doesn't result in the creation of another backup. This is done to avoid race conditions which
+might occur in some corner cases when we have maxvers number of backups and we try to  restore to the oldest version. Restoring a file back to an older 
+version will niether create nor delete any backup files.
+
+4. View: Viewing of backup files is done in chunks of PAGE_SIZE (4K). This is done to allow viewing of large files as well by making multiple 
+calls from USERLAND with incremented offsets. Viewing of a backup is a RDONLY operation with no writes whatsoever. 
+
+F. PERFORMANCE 
+-I have used splice_write to copy the contents from actual file to the backup file as it is quite efficient and fast.
+-For version maintainence I have kept the design simple by just incrementing the version number with every backup creation. The start  and 
+cur version information is stored persisitently. This design prevents renaming of backup files during deletion of old backups to adhere to the 
+retention policy. There is a tradeof though as incrementing the version number unboundedly might overflow the long range but that is highly
+unlikely.
+- EA's are used to keep control data persistently as they are easier to implement and maintain as well as fast as compared to control file writes
+
+*****************************************************************
+4.0 TESTS/EVALUATION (./tests)
+*****************************************************************
+I have developed 15 test scripts to test and verify various functionalities seperately. The result is printed on the prompt.
+Each test description is written in the test script. 
+First run the setup.sh script in CSE-506 folder.
+In order to run all scripts together you can give the following command inside ./tests dir (RECOMMENDED)
+
+>sh testall.sh [Mount directory]
+
+This will redirect the results of the test scripts to file result.txt in the same dir. 
+The script also displays the total test cases run and total test cases that passed.
+
+***********************************************
+REFERENCES
+**********************************************
+1. Wrapfs and ecryptfs code in linux kernel
+2. Linux manual :getopt()
+3. https://www3.cs.stonybrook.edu/~ezk/cse506-s19/hw1.txt : for test scripts
