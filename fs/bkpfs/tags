@@ -1,0 +1,128 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BKPFS_D	bkpfs.h	102;"	d
+BKPFS_F	bkpfs.h	108;"	d
+BKPFS_I	bkpfs.h	/^static inline struct bkpfs_inode_info *BKPFS_I(const struct inode *inode)$/;"	f
+BKPFS_NAME	bkpfs.h	32;"	d
+BKPFS_NAME	main.c	/^MODULE_ALIAS_FS(BKPFS_NAME);$/;"	v
+BKPFS_ROOT_INO	bkpfs.h	35;"	d
+BKPFS_SB	bkpfs.h	105;"	d
+BKPFS_VERSION	Makefile	/^BKPFS_VERSION="0.1"$/;"	m
+UDBG	bkpfs.h	38;"	d
+_BKPFS_H_	bkpfs.h	13;"	d
+__bkpfs_interpose	lookup.c	/^static struct dentry *__bkpfs_interpose(struct dentry *dentry,$/;"	f	file:
+__bkpfs_lookup	lookup.c	/^static struct dentry *__bkpfs_lookup(struct dentry *dentry,$/;"	f	file:
+__this_module	bkpfs.mod.c	/^__visible struct module __this_module$/;"	v	typeref:struct:module
+__used	bkpfs.mod.c	/^__used$/;"	v	file:
+__used	bkpfs.mod.c	/^__used$/;"	v	typeref:struct:____versions	file:
+bkpfs-y	Makefile	/^bkpfs-y := dentry.o file.o inode.o main.o super.o lookup.o mmap.o$/;"	m
+bkpfs_alloc_inode	super.c	/^static struct inode *bkpfs_alloc_inode(struct super_block *sb)$/;"	f	file:
+bkpfs_aops	mmap.c	/^const struct address_space_operations bkpfs_aops = {$/;"	v	typeref:struct:address_space_operations
+bkpfs_compat_ioctl	file.c	/^static long bkpfs_compat_ioctl(struct file *file, unsigned int cmd,$/;"	f	file:
+bkpfs_create	inode.c	/^static int bkpfs_create(struct inode *dir, struct dentry *dentry,$/;"	f	file:
+bkpfs_d_release	dentry.c	/^static void bkpfs_d_release(struct dentry *dentry)$/;"	f	file:
+bkpfs_d_revalidate	dentry.c	/^static int bkpfs_d_revalidate(struct dentry *dentry, unsigned int flags)$/;"	f	file:
+bkpfs_dentry_cachep	lookup.c	/^static struct kmem_cache *bkpfs_dentry_cachep;$/;"	v	typeref:struct:kmem_cache	file:
+bkpfs_dentry_info	bkpfs.h	/^struct bkpfs_dentry_info {$/;"	s
+bkpfs_destroy_dentry_cache	lookup.c	/^void bkpfs_destroy_dentry_cache(void)$/;"	f
+bkpfs_destroy_inode	super.c	/^static void bkpfs_destroy_inode(struct inode *inode)$/;"	f	file:
+bkpfs_destroy_inode_cache	super.c	/^void bkpfs_destroy_inode_cache(void)$/;"	f
+bkpfs_dir_fops	file.c	/^const struct file_operations bkpfs_dir_fops = {$/;"	v	typeref:struct:file_operations
+bkpfs_dir_iops	inode.c	/^const struct inode_operations bkpfs_dir_iops = {$/;"	v	typeref:struct:inode_operations
+bkpfs_direct_IO	mmap.c	/^static ssize_t bkpfs_direct_IO(struct kiocb *iocb, struct iov_iter *iter)$/;"	f	file:
+bkpfs_dops	dentry.c	/^const struct dentry_operations bkpfs_dops = {$/;"	v	typeref:struct:dentry_operations
+bkpfs_evict_inode	super.c	/^static void bkpfs_evict_inode(struct inode *inode)$/;"	f	file:
+bkpfs_export_ops	super.c	/^const struct export_operations bkpfs_export_ops = {$/;"	v	typeref:struct:export_operations
+bkpfs_fasync	file.c	/^static int bkpfs_fasync(int fd, struct file *file, int flag)$/;"	f	file:
+bkpfs_fault	mmap.c	/^static int bkpfs_fault(struct vm_fault *vmf)$/;"	f	file:
+bkpfs_fh_to_dentry	super.c	/^static struct dentry *bkpfs_fh_to_dentry(struct super_block *sb,$/;"	f	file:
+bkpfs_fh_to_parent	super.c	/^static struct dentry *bkpfs_fh_to_parent(struct super_block *sb,$/;"	f	file:
+bkpfs_file_info	bkpfs.h	/^struct bkpfs_file_info {$/;"	s
+bkpfs_file_llseek	file.c	/^static loff_t bkpfs_file_llseek(struct file *file, loff_t offset, int whence)$/;"	f	file:
+bkpfs_file_release	file.c	/^static int bkpfs_file_release(struct inode *inode, struct file *file)$/;"	f	file:
+bkpfs_flush	file.c	/^static int bkpfs_flush(struct file *file, fl_owner_t id)$/;"	f	file:
+bkpfs_fs_type	main.c	/^static struct file_system_type bkpfs_fs_type = {$/;"	v	typeref:struct:file_system_type	file:
+bkpfs_fsync	file.c	/^static int bkpfs_fsync(struct file *file, loff_t start, loff_t end,$/;"	f	file:
+bkpfs_get_link	inode.c	/^static const char *bkpfs_get_link(struct dentry *dentry, struct inode *inode,$/;"	f	file:
+bkpfs_get_lower_path	bkpfs.h	/^static inline void bkpfs_get_lower_path(const struct dentry *dent,$/;"	f
+bkpfs_getattr	inode.c	/^static int bkpfs_getattr(const struct path *path, struct kstat *stat, $/;"	f	file:
+bkpfs_getxattr	inode.c	/^bkpfs_getxattr(struct dentry *dentry, struct inode *inode,$/;"	f	file:
+bkpfs_iget	lookup.c	/^struct inode *bkpfs_iget(struct super_block *sb, struct inode *lower_inode)$/;"	f
+bkpfs_init_dentry_cache	lookup.c	/^int bkpfs_init_dentry_cache(void)$/;"	f
+bkpfs_init_inode_cache	super.c	/^int bkpfs_init_inode_cache(void)$/;"	f
+bkpfs_inode_cachep	super.c	/^static struct kmem_cache *bkpfs_inode_cachep;$/;"	v	typeref:struct:kmem_cache	file:
+bkpfs_inode_info	bkpfs.h	/^struct bkpfs_inode_info {$/;"	s
+bkpfs_inode_set	lookup.c	/^static int bkpfs_inode_set(struct inode *inode, void *lower_inode)$/;"	f	file:
+bkpfs_inode_test	lookup.c	/^static int bkpfs_inode_test(struct inode *inode, void *candidate_lower_inode)$/;"	f	file:
+bkpfs_interpose	lookup.c	/^int bkpfs_interpose(struct dentry *dentry, struct super_block *sb,$/;"	f
+bkpfs_link	inode.c	/^static int bkpfs_link(struct dentry *old_dentry, struct inode *dir,$/;"	f	file:
+bkpfs_listxattr	inode.c	/^bkpfs_listxattr(struct dentry *dentry, char *buffer, size_t buffer_size)$/;"	f	file:
+bkpfs_lookup	lookup.c	/^struct dentry *bkpfs_lookup(struct inode *dir, struct dentry *dentry,$/;"	f
+bkpfs_lower_file	bkpfs.h	/^static inline struct file *bkpfs_lower_file(const struct file *f)$/;"	f
+bkpfs_lower_inode	bkpfs.h	/^static inline struct inode *bkpfs_lower_inode(const struct inode *i)$/;"	f
+bkpfs_lower_super	bkpfs.h	/^static inline struct super_block *bkpfs_lower_super($/;"	f
+bkpfs_main_fops	file.c	/^const struct file_operations bkpfs_main_fops = {$/;"	v	typeref:struct:file_operations
+bkpfs_main_iops	inode.c	/^const struct inode_operations bkpfs_main_iops = {$/;"	v	typeref:struct:inode_operations
+bkpfs_mkdir	inode.c	/^static int bkpfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)$/;"	f	file:
+bkpfs_mknod	inode.c	/^static int bkpfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode,$/;"	f	file:
+bkpfs_mmap	file.c	/^static int bkpfs_mmap(struct file *file, struct vm_area_struct *vma)$/;"	f	file:
+bkpfs_mount	main.c	/^struct dentry *bkpfs_mount(struct file_system_type *fs_type, int flags,$/;"	f
+bkpfs_nfs_get_inode	super.c	/^static struct inode *bkpfs_nfs_get_inode(struct super_block *sb, u64 ino,$/;"	f	file:
+bkpfs_open	file.c	/^static int bkpfs_open(struct inode *inode, struct file *file)$/;"	f	file:
+bkpfs_page_mkwrite	mmap.c	/^static int bkpfs_page_mkwrite(struct vm_fault *vmf)$/;"	f	file:
+bkpfs_permission	inode.c	/^static int bkpfs_permission(struct inode *inode, int mask)$/;"	f	file:
+bkpfs_put_lower_path	bkpfs.h	/^static inline void bkpfs_put_lower_path(const struct dentry *dent,$/;"	f
+bkpfs_put_reset_lower_path	bkpfs.h	/^static inline void bkpfs_put_reset_lower_path(const struct dentry *dent)$/;"	f
+bkpfs_put_super	super.c	/^static void bkpfs_put_super(struct super_block *sb)$/;"	f	file:
+bkpfs_read	file.c	/^static ssize_t bkpfs_read(struct file *file, char __user *buf,$/;"	f	file:
+bkpfs_read_iter	file.c	/^bkpfs_read_iter(struct kiocb *iocb, struct iov_iter *iter)$/;"	f
+bkpfs_read_super	main.c	/^static int bkpfs_read_super(struct super_block *sb, void *raw_data, int silent)$/;"	f	file:
+bkpfs_readdir	file.c	/^static int bkpfs_readdir(struct file *file, struct dir_context *ctx)$/;"	f	file:
+bkpfs_readlink	inode.c	/^static int bkpfs_readlink(struct dentry *dentry, char __user *buf, int bufsiz)$/;"	f	file:
+bkpfs_remount_fs	super.c	/^static int bkpfs_remount_fs(struct super_block *sb, int *flags, char *options)$/;"	f	file:
+bkpfs_removexattr	inode.c	/^bkpfs_removexattr(struct dentry *dentry, struct inode *inode, const char *name)$/;"	f	file:
+bkpfs_rename	inode.c	/^static int bkpfs_rename(struct inode *old_dir, struct dentry *old_dentry,$/;"	f	file:
+bkpfs_reset_lower_path	bkpfs.h	/^static inline void bkpfs_reset_lower_path(const struct dentry *dent)$/;"	f
+bkpfs_rmdir	inode.c	/^static int bkpfs_rmdir(struct inode *dir, struct dentry *dentry)$/;"	f	file:
+bkpfs_sb_info	bkpfs.h	/^struct bkpfs_sb_info {$/;"	s
+bkpfs_set_lower_file	bkpfs.h	/^static inline void bkpfs_set_lower_file(struct file *f, struct file *val)$/;"	f
+bkpfs_set_lower_inode	bkpfs.h	/^static inline void bkpfs_set_lower_inode(struct inode *i, struct inode *val)$/;"	f
+bkpfs_set_lower_path	bkpfs.h	/^static inline void bkpfs_set_lower_path(const struct dentry *dent,$/;"	f
+bkpfs_set_lower_super	bkpfs.h	/^static inline void bkpfs_set_lower_super(struct super_block *sb,$/;"	f
+bkpfs_setattr	inode.c	/^static int bkpfs_setattr(struct dentry *dentry, struct iattr *ia)$/;"	f	file:
+bkpfs_setxattr	inode.c	/^bkpfs_setxattr(struct dentry *dentry, struct inode *inode, const char *name,$/;"	f	file:
+bkpfs_sops	super.c	/^const struct super_operations bkpfs_sops = {$/;"	v	typeref:struct:super_operations
+bkpfs_statfs	super.c	/^static int bkpfs_statfs(struct dentry *dentry, struct kstatfs *buf)$/;"	f	file:
+bkpfs_symlink	inode.c	/^static int bkpfs_symlink(struct inode *dir, struct dentry *dentry,$/;"	f	file:
+bkpfs_symlink_iops	inode.c	/^const struct inode_operations bkpfs_symlink_iops = {$/;"	v	typeref:struct:inode_operations
+bkpfs_umount_begin	super.c	/^static void bkpfs_umount_begin(struct super_block *sb)$/;"	f	file:
+bkpfs_unlink	inode.c	/^static int bkpfs_unlink(struct inode *dir, struct dentry *dentry)$/;"	f	file:
+bkpfs_unlocked_ioctl	file.c	/^static long bkpfs_unlocked_ioctl(struct file *file, unsigned int cmd,$/;"	f	file:
+bkpfs_vm_ops	mmap.c	/^const struct vm_operations_struct bkpfs_vm_ops = {$/;"	v	typeref:struct:vm_operations_struct
+bkpfs_write	file.c	/^static ssize_t bkpfs_write(struct file *file, const char __user *buf,$/;"	f	file:
+bkpfs_write_iter	file.c	/^bkpfs_write_iter(struct kiocb *iocb, struct iov_iter *iter)$/;"	f
+bkpfs_xattr_get	inode.c	/^static int bkpfs_xattr_get(const struct xattr_handler *handler,$/;"	f	file:
+bkpfs_xattr_handler	inode.c	/^const struct xattr_handler bkpfs_xattr_handler = {$/;"	v	typeref:struct:xattr_handler
+bkpfs_xattr_handlers	inode.c	/^const struct xattr_handler *bkpfs_xattr_handlers[] = {$/;"	v	typeref:struct:xattr_handler
+bkpfs_xattr_set	inode.c	/^static int bkpfs_xattr_set(const struct xattr_handler *handler,$/;"	f	file:
+exit_bkpfs_fs	main.c	/^module_exit(exit_bkpfs_fs);$/;"	v
+exit_bkpfs_fs	main.c	/^static void __exit exit_bkpfs_fs(void)$/;"	f	file:
+free_dentry_private_data	lookup.c	/^void free_dentry_private_data(struct dentry *dentry)$/;"	f
+init_bkpfs_fs	main.c	/^module_init(init_bkpfs_fs);$/;"	v
+init_bkpfs_fs	main.c	/^static int __init init_bkpfs_fs(void)$/;"	f	file:
+init_once	super.c	/^static void init_once(void *obj)$/;"	f	file:
+lock	bkpfs.h	/^	spinlock_t lock;	\/* protects lower_path *\/$/;"	m	struct:bkpfs_dentry_info
+lock_parent	bkpfs.h	/^static inline struct dentry *lock_parent(struct dentry *dentry)$/;"	f
+lower_file	bkpfs.h	/^	struct file *lower_file;$/;"	m	struct:bkpfs_file_info	typeref:struct:bkpfs_file_info::file
+lower_inode	bkpfs.h	/^	struct inode *lower_inode;$/;"	m	struct:bkpfs_inode_info	typeref:struct:bkpfs_inode_info::inode
+lower_path	bkpfs.h	/^	struct path lower_path;$/;"	m	struct:bkpfs_dentry_info	typeref:struct:bkpfs_dentry_info::path
+lower_sb	bkpfs.h	/^	struct super_block *lower_sb;$/;"	m	struct:bkpfs_sb_info	typeref:struct:bkpfs_sb_info::super_block
+lower_vm_ops	bkpfs.h	/^	const struct vm_operations_struct *lower_vm_ops;$/;"	m	struct:bkpfs_file_info	typeref:struct:bkpfs_file_info::vm_operations_struct
+new_dentry_private_data	lookup.c	/^int new_dentry_private_data(struct dentry *dentry)$/;"	f
+pathcpy	bkpfs.h	/^static inline void pathcpy(struct path *dst, const struct path *src)$/;"	f
+unlock_dir	bkpfs.h	/^static inline void unlock_dir(struct dentry *dir)$/;"	f
+vfs_inode	bkpfs.h	/^	struct inode vfs_inode;$/;"	m	struct:bkpfs_inode_info	typeref:struct:bkpfs_inode_info::inode
